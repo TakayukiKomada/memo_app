@@ -3,26 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Memo;
-
-use Illuminate\Http\Request;
+use App\Http\Requests\MemoRequest;
 
 class MemoController extends Controller
 {
-    // indexページへ移動
     public function index()
     {
-        // モデル名::テーブル全件取得
         $memos = Memo::all();
-        // memosティレクトリーの中のindexページを指定し、memosの連想配列を代入
         return view('memos.index', ['memos' => $memos]);
     }
+
     public function create()
     {
         return view('memos.create');
     }
 
-
-    public function store(Request $request)
+    public function store(MemoRequest $request)
     {
         // インスタンスの作成
         $memo = new Memo;
@@ -38,19 +34,19 @@ class MemoController extends Controller
         return redirect('/memos');
     }
 
-    // showページへ移動
     public function show($id)
     {
         $memo = Memo::find($id);
         return view('memos.show', ['memo' => $memo]);
     }
 
-    public function edit($id)
+    public function edit($id) 
     {
         $memo = Memo::find($id);
         return view('memos.edit', ['memo' => $memo]);
     }
-    public function update(Request $request, $id)
+
+    public function update(MemoRequest $request, $id) 
     {
         // ここはidで探して持ってくる以外はstoreと同じ
         $memo = Memo::find($id);
@@ -65,6 +61,7 @@ class MemoController extends Controller
         // 登録したらindexに戻る
         return redirect('/memos');
     }
+
     public function destroy($id)
     {
         $memo = Memo::find($id);
